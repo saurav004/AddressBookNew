@@ -18,26 +18,126 @@ public class App {
 			System.out.println("select from the options given below");
 			System.out.println("1.\tAdd a contact");
 			System.out.println("2.\tEXIT");
-			System.out.println("3.\tDelete a contact");
+			System.out.println("3.\tDelete a Contact");
+			System.out.println("4.\tUpdate a Contact");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
 				addAContact();
 				break;
 			case 2:
+				end = 1;
 				break;
 			case 3:
-				deleteAContact();
+				System.out.println("Enter the Name the contact of which u want to delete");
+				String fName = sc.next();
+				deleteAContact(fName);
 				break;
+			case 4:
+				updateAContact();
+				break;
+			default:
+				System.out.println("Invalid Choice!!!");
 			}
 
 		}
 	}
 
-	private static void deleteAContact() throws IOException {
+	private static void updateAContact() throws IOException {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the Name of which contact you want to delete");
 		String fName = sc.next();
+		String record = searchARecord(fName);
+		System.out.println();
+		String[] recordLine = record.trim().split("\\s+");
+		System.out.println("What do u want to update");
+		System.out.println(
+				"\t1.\tFirst Name \t2.\tlast Name \t3.\temail \t4.\tAddress \n \t5.\tcity \t6.\tState \t7.\tzip \t8.\tPhone Number");
+
+		Scanner scan = new Scanner(System.in);
+		int choice1 = scan.nextInt();
+		fName = recordLine[0];
+		String lName = recordLine[1];
+		String emailId = recordLine[2];
+		String Address = recordLine[3];
+		String city = recordLine[4];
+		String state = recordLine[5];
+		String zip = recordLine[6];
+		String phoneNumber = recordLine[7];
+		deleteAContact(fName);
+
+		switch (choice1) {
+		case 1:
+			System.out.println("Enter first Name");
+			fName = sc.next();
+			break;
+		case 2:
+			System.out.println("Enter last Name");
+			lName = sc.next();
+			break;
+		case 3:
+			System.out.println("Enter email Address");
+			emailId = sc.next();
+			break;
+		case 4:
+			System.out.println("Enter your Address");
+			Address = sc.next();
+			break;
+		case 5:
+			System.out.println("Enter your city Name");
+			city = sc.next();
+			break;
+		case 6:
+			System.out.println("Enter your state");
+			state = sc.next();
+			break;
+		case 7:
+			System.out.println("Enter your zip");
+			zip = sc.next();
+			break;
+		case 8:
+			System.out.println("Enter your phone Number");
+			phoneNumber = sc.next();
+			break;
+		default:
+			System.out.println("Incorrect Choice");
+		}
+		try {
+			FileWriter myWriter = new FileWriter("C:\\Users\\Saurabh\\eclipse-workspace\\AddressBook\\AddressBook.txt",
+					true);
+			myWriter.write("\n" + fName + "\t" + lName + "\t" + emailId + "\t" + Address + "\t" + city + "\t" + state
+					+ "\t" + zip + "\t" + phoneNumber + "\t");
+			myWriter.close();
+			System.out.println("Successfully wrote to the file.");
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+
+	private static String searchARecord(String fName) {
+
+		File file = new File("C:\\Users\\Saurabh\\eclipse-workspace\\AddressBook\\AddressBook.txt");
+		Scanner scanner = null;
+		String line = null;
+		try {
+			scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				int index = line.indexOf(fName);
+				if (index != -1) {
+					System.out.println(line);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error occured while processing the file");
+			e.printStackTrace();
+		}
+		scanner.close();
+		return line;
+	}
+
+	private static void deleteAContact(String fName) throws IOException {
 		File file = new File("C:\\Users\\Saurabh\\eclipse-workspace\\AddressBook\\AddressBook.txt");
 		Scanner scanner = null;
 		FileWriter myWriter = null;
