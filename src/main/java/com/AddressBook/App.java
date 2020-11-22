@@ -18,8 +18,33 @@ public class App {
 		OpenAddressBook();
 	}
 
-	public static void openAddressBookMenu() {
-
+	public static int openAddressBookMenu() throws IOException {
+		int end = 0;
+		System.out.println("select from the options given below");
+		System.out.println("1.\tAdd a contact");
+		System.out.println("2.\tEXIT");
+		System.out.println("3.\tDelete a Contact");
+		System.out.println("4.\tUpdate a Contact");
+		int choice = scanner.nextInt();
+		switch (choice) {
+		case 1:
+			addAContact();
+			break;
+		case 2:
+			end = 1;
+			break;
+		case 3:
+			System.out.println("Enter the First Name of the contact of which u want to delete");
+			String fName = scanner.next();
+			deleteAContact(fName);
+			break;
+		case 4:
+			updateAContact();
+			break;
+		default:
+			System.out.println("Invalid Choice!!!");
+		}
+		return end;
 	}
 
 	private static void updateAContact() throws IOException {
@@ -197,30 +222,7 @@ public class App {
 				if (reader != null)
 					reader.close();
 			}
-			System.out.println("select from the options given below");
-			System.out.println("1.\tAdd a contact");
-			System.out.println("2.\tEXIT");
-			System.out.println("3.\tDelete a Contact");
-			System.out.println("4.\tUpdate a Contact");
-			int choice = scanner.nextInt();
-			switch (choice) {
-			case 1:
-				addAContact();
-				break;
-			case 2:
-				end = 1;
-				break;
-			case 3:
-				System.out.println("Enter the First Name of the contact of which u want to delete");
-				String fName = scanner.next();
-				deleteAContact(fName);
-				break;
-			case 4:
-				updateAContact();
-				break;
-			default:
-				System.out.println("Invalid Choice!!!");
-			}
+			end = openAddressBookMenu();
 		}
 
 	}
