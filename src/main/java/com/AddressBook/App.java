@@ -5,47 +5,26 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
 	static Scanner scanner = new Scanner(System.in);
+	static ArrayList<Person> listOfContacts = new ArrayList<Person>();
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("WELCOME TO ADDRESS BOOK PROGRAM");
 		createAddressBook();
-		int end = 0;
-		while (end == 0) {
-			OpenAddressBook();
-			System.out.println("select from the options given below");
-			System.out.println("1.\tAdd a contact");
-			System.out.println("2.\tEXIT");
-			System.out.println("3.\tDelete a Contact");
-			System.out.println("4.\tUpdate a Contact");
-			int choice = scanner.nextInt();
-			switch (choice) {
-			case 1:
-				addAContact();
-				break;
-			case 2:
-				end = 1;
-				break;
-			case 3:
-				System.out.println("Enter the Name of the contact of which u want to delete");
-				String fName = scanner.next();
-				deleteAContact(fName);
-				break;
-			case 4:
-				updateAContact();
-				break;
-			default:
-				System.out.println("Invalid Choice!!!");
-			}
-		}
+		OpenAddressBook();
+	}
+
+	public static void openAddressBookMenu() {
+
 	}
 
 	private static void updateAContact() throws IOException {
 		Person newPerson = new Person();
-		System.out.println("Enter the Name of the person whose contact you want to update");
+		System.out.println("Enter the First Name of the person whose contact you want to update");
 		String fName = scanner.next();
 		newPerson = searchARecord(fName);
 		newPerson = switchCaseForUpdateMethod(newPerson);
@@ -180,6 +159,7 @@ public class App {
 		person.setZip(scanner.next());
 		System.out.println("\n\tEnter your Phone Number");
 		person.setPhoneNumber(scanner.next());
+		listOfContacts.add(person);
 		String path = "C:\\Users\\Saurabh\\eclipse-workspace\\AddressBook\\AddressBook.txt";
 		writeToTheFile(path, person);
 
@@ -200,21 +180,49 @@ public class App {
 	}
 
 	public static void OpenAddressBook() throws IOException {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(
-					new FileReader("C:\\Users\\Saurabh\\eclipse-workspace\\AddressBook\\AddressBook.txt"));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				System.out.println("\t\t" + line);
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (reader != null)
+		int end = 0;
+		while (end == 0) {
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(
+						new FileReader("C:\\Users\\Saurabh\\eclipse-workspace\\AddressBook\\AddressBook.txt"));
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					System.out.println("\t\t" + line);
+				}
 				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null)
+					reader.close();
+			}
+			System.out.println("select from the options given below");
+			System.out.println("1.\tAdd a contact");
+			System.out.println("2.\tEXIT");
+			System.out.println("3.\tDelete a Contact");
+			System.out.println("4.\tUpdate a Contact");
+			int choice = scanner.nextInt();
+			switch (choice) {
+			case 1:
+				addAContact();
+				break;
+			case 2:
+				end = 1;
+				break;
+			case 3:
+				System.out.println("Enter the First Name of the contact of which u want to delete");
+				String fName = scanner.next();
+				deleteAContact(fName);
+				break;
+			case 4:
+				updateAContact();
+				break;
+			default:
+				System.out.println("Invalid Choice!!!");
+			}
 		}
+
 	}
 
 	public static void createAddressBook() {

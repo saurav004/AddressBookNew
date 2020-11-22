@@ -2,8 +2,8 @@ package com.AddressBook;
 
 public class Person {
 
-	private String firstName = null, lastName = null, emailId = null, Address = null, city = null, state = null, zip = null,
-			phoneNumber = null;
+	private String firstName = null, lastName = null, emailId = null, Address = null, city = null, state = null,
+			zip = null, phoneNumber = null;
 
 	public String getFirstName() {
 		return firstName;
